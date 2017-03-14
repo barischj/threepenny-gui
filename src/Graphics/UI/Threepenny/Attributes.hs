@@ -5,6 +5,9 @@ module Graphics.UI.Threepenny.Attributes (
     -- * Input elements
     checked, selection, enabled,
 
+    -- * Attribute constructors
+    strAttr, intAttr, emptyAttr,
+
     -- * HTML attributes
     action, align, alink, alt, altcode, archive,
     background, base, bgcolor, border, bordercolor,
@@ -44,7 +47,7 @@ selection = fromJQueryProp "selectedIndex" from (JSON.toJSON . maybe (-1) id)
 
 
 {-----------------------------------------------------------------------------
-    HTML atributes
+    HTML attributes
 
     Taken from the HTML library (BSD3 license)
     http://hackage.haskell.org/package/html
