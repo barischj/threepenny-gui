@@ -8,7 +8,7 @@ module Graphics.UI.Threepenny.Internal (
     Window, disconnect,
     startGUI,
 
-    UI, runUI, liftIOLater, askWindow,
+    UI, runUI, MonadUI(..), liftIOLater, askWindow,
 
     FFI, FromJS, ToJS, JSFunction, JSObject, ffi,
     runFunction, callFunction,
@@ -253,6 +253,13 @@ in which JavaScript function calls are executed.
 -}
 newtype UI a = UI { unUI :: Monad.RWST Window [IO ()] () IO a }
     deriving (Typeable)
+
+class (Monad m) => MonadUI m where
+    -- | Lift a computation from the 'UI' monad.
+    liftUI :: UI a -> m a
+
+instance MonadUI UI where
+    liftUI = id
 
 liftJSWindow :: (JS.Window -> IO a) -> UI a
 liftJSWindow f = askWindow >>= liftIO . f . jsWindow
